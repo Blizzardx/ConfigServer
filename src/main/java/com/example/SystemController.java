@@ -34,6 +34,7 @@ public class SystemController
         return "list_config " + game_type + " : " + server_version;
     }
     @RequestMapping(value = "/config/upload", method = RequestMethod.POST, consumes = "multipart/form-data")
+    @ResponseBody
     public com.example.Response upload(
             @RequestParam(value = "filename") String filename,
             @RequestParam(value = "fileformat") String fileformat,
