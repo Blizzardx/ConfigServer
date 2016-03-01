@@ -1,5 +1,6 @@
 package com.example;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -8,6 +9,7 @@ import javax.xml.ws.Response;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.UUID;
 
 @Controller
 public class SystemController
@@ -40,13 +42,26 @@ public class SystemController
             @RequestParam(value = "fileformat") String fileformat,
             @RequestParam(value = "path") String path,
             @RequestParam(value = "file", required = true) MultipartFile file
-    )
-    {
-        System.out.println("on upload 1: " + filename + " : " + fileformat + " : " + path + " : ");
+    ) {
+        try {
+            File voiceDir = new File("D:\\\\config\\");
+            if (!voiceDir.exists()) {
+                voiceDir.mkdirs();
+            }
+            if (file.isEmpty())
+            {
+                return new com.example.Response(EnumConstants.ErrorInfo.VoiceFileIsull);
+            }
+            if (!filename.endsWith(".bytes")) {
+                return new com.example.Response(EnumConstants.ErrorInfo.VoiceFileSuffixError);
+            }
 
-        com.example.Response resp = new com.example.Response(EnumConstants.ErrorInfo.SystemError);
-        System.out.println(resp.toString());
-        return resp;
+            FileUtils.writeByteArrayToFile(new File(voiceDir.getPath() + "/" + filename), file.getBytes());
+
+            return new com.example.Response(EnumConstants.ErrorInfo.SystemError);
+        } catch (Exception e) {
+            return new com.example.Response(EnumConstants.ErrorInfo.SystemError);
+        }
     }
 
 }
