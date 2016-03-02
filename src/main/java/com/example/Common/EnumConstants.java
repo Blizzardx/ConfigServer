@@ -1,4 +1,4 @@
-package com.example;
+package com.example.Common;
 
 /**
  * Created by Administrator on 2016/2/29.

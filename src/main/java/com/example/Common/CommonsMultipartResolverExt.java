@@ -1,5 +1,6 @@
-package com.example;
+package com.example.Common;
 
+import com.example.Common.UrlUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.fileupload.FileUploadBase;

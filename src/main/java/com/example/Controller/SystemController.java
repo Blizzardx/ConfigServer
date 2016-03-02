@@ -1,19 +1,19 @@
-package com.example;
+package com.example.Controller;
 
+import com.example.Common.EnumConstants;
+import com.example.Handler.UploadHandler;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.xml.ws.Response;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.util.UUID;
 
 @Controller
 public class SystemController
 {
+    private UploadHandler m_Handler = new UploadHandler();
+
     //get game type list
     @RequestMapping("/config/list_game_type")
     @ResponseBody
@@ -37,31 +37,13 @@ public class SystemController
     }
     @RequestMapping(value = "/config/upload", method = RequestMethod.POST, consumes = "multipart/form-data")
     @ResponseBody
-    public com.example.Response upload(
+    public com.example.Common.Response upload(
             @RequestParam(value = "filename") String filename,
             @RequestParam(value = "fileformat") String fileformat,
             @RequestParam(value = "path") String path,
             @RequestParam(value = "file", required = true) MultipartFile file
     ) {
-        try {
-            File voiceDir = new File("D:\\\\config\\");
-            if (!voiceDir.exists()) {
-                voiceDir.mkdirs();
-            }
-            if (file.isEmpty())
-            {
-                return new com.example.Response(EnumConstants.ErrorInfo.VoiceFileIsull);
-            }
-            if (!filename.endsWith(".bytes")) {
-                return new com.example.Response(EnumConstants.ErrorInfo.VoiceFileSuffixError);
-            }
-
-            FileUtils.writeByteArrayToFile(new File(voiceDir.getPath() + "/" + filename), file.getBytes());
-
-            return new com.example.Response(EnumConstants.ErrorInfo.SystemError);
-        } catch (Exception e) {
-            return new com.example.Response(EnumConstants.ErrorInfo.SystemError);
-        }
+        return m_Handler.Upload(filename,fileformat,path,file);
     }
 
 }

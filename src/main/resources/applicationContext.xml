@@ -21,7 +21,7 @@
         <property name="fileEncoding" value="utf-8" />
     </bean>
 
-    <bean id="multipartResolver" class="com.example.CommonsMultipartResolverExt">
+    <bean id="multipartResolver" class="com.example.Common.CommonsMultipartResolverExt">
         <property name="maxUploadSize" value="5120000"/>
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
